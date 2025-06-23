@@ -7,6 +7,9 @@ namespace ComAutoWrapper
 	public static class ComInvoker
 	{
 		public static T? GetProperty<T>(object comObject, string propertyName)
+			=> GetProperty<T>(comObject, propertyName, null);
+
+		public static T? GetProperty<T>(object comObject, string propertyName, object[]? parameters)
 		{
 			try
 			{
@@ -15,9 +18,9 @@ namespace ComAutoWrapper
 					BindingFlags.GetProperty,
 					null,
 					comObject,
-					null);
+					parameters);
 
-				return (result is T typed) ? typed : default;
+				return result is T typed ? typed : default;
 			}
 			catch (TargetInvocationException tie)
 			{
@@ -62,6 +65,13 @@ namespace ComAutoWrapper
 				return null;
 			}
 		}
+
+		        public static List<string> ListCallableMembers(object comObject)
+        {
+            var type = comObject.GetType();
+            var members = type.GetMembers(BindingFlags.Public | BindingFlags.Instance);
+            return members.Select(m => $"{m.MemberType}: {m.Name}").Distinct().OrderBy(s => s).ToList();
+        }
 
 		private static void ThrowComException(string memberName, TargetInvocationException tie)
 		{
