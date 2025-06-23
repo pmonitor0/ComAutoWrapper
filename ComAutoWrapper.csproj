@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+	<ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Platforms>AnyCPU;x64</Platforms>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>ComAutoWrapper</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>pmonitor</Authors>
+    <Company>Saját Fejlesztés</Company>
+    <Description>Egyszerű AutoWrap COM helper C#-hoz</Description>
+    <PackageTags>COM Interop AutoWrap Excel</PackageTags>
+    <!-- <RepositoryUrl>https://github.com/peldaprojekt</RepositoryUrl>  ha van -->
+  </PropertyGroup>
+</Project>
