@@ -47,5 +47,8 @@ No Interop DLL dependency
 
 Works on .NET 6/7/8/9
 
+## Kösazönetnyilvánitás
+A ChatGPT által nyújtott segítségért, amely hozzájárult a projekt egyes részeinek megvalósításához.
+
 License:
 MIT
