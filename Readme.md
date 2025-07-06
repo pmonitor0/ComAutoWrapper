@@ -55,7 +55,3 @@ A ChatGPT által nyújtott segítségért, amely hozzájárult a projekt egyes r
 
 📄 License
 MIT
-
-yaml
-Copy
-Edit
