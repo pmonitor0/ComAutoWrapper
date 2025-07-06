@@ -55,3 +55,10 @@ A ChatGPT által nyújtott segítségért, amely hozzájárult a projekt egyes r
 
 📄 License
 MIT
+<<<<<<< HEAD
+=======
+
+yaml
+Copy
+Edit
+>>>>>>> e68748a (Update with method/property examples and usage)

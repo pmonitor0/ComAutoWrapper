@@ -29,7 +29,12 @@ namespace ComAutoWrapper
 			}
 		}
 
-		public static bool SetProperty(object comObject, string propertyName, object value)
+		public static void SetProperty(object comObject, string propertyName, object value)
+		{
+			SetProperty(comObject, propertyName, new object[] { value });
+		}
+
+		public static void SetProperty(object comObject, string propertyName, params object[] parameters)
 		{
 			try
 			{
@@ -38,15 +43,14 @@ namespace ComAutoWrapper
 					BindingFlags.SetProperty,
 					null,
 					comObject,
-					new object[] { value });
-				return true;
+					parameters);
 			}
 			catch (TargetInvocationException tie)
 			{
 				ThrowComException(propertyName, tie);
-				return false;
 			}
 		}
+
 
 		public static object? CallMethod(object comObject, string methodName, params object[] args)
 		{
@@ -66,7 +70,27 @@ namespace ComAutoWrapper
 			}
 		}
 
-		        public static List<string> ListCallableMembers(object comObject)
+		public static T? CallMethod<T>(object comObject, string methodName, params object[] parameters)
+		{
+			try
+			{
+				object? result = comObject.GetType().InvokeMember(
+					methodName,
+					BindingFlags.InvokeMethod,
+					null,
+					comObject,
+					parameters);
+
+				return result is T typed ? typed : default;
+			}
+			catch (TargetInvocationException tie)
+			{
+				ThrowComException(methodName, tie);
+				return default;
+			}
+		}
+
+		public static List<string> ListCallableMembers(object comObject)
         {
             var type = comObject.GetType();
             var members = type.GetMembers(BindingFlags.Public | BindingFlags.Instance);
