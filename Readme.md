@@ -1,54 +1,61 @@
-# ComAutoWrapper
+🚀 Quick Example (Excel automation)
 
-Simple AutoWrap-style COM method/property invoker for .NET (C#).  
-Useful for Excel, Word, and other COM automation tasks — without Interop DLLs or `dynamic`.
+```csharp
+var excel = Activator.CreateInstance(Type.GetTypeFromProgID("Excel.Application")!);
+ComAutoHelper.SetProperty(excel, "Visible", true);
 
-## Introspect COM members
+var workbooks = ComAutoHelper.GetProperty<object>(excel, "Workbooks");
+ComAutoHelper.CallMethod(workbooks, "Add");
 
-You can list all callable members (methods and properties) of any IDispatch-based COM object:
+ComAutoHelper.CallMethod(excel, "Quit"); ```
+
+🔍 COM Member Introspection
+You can list all callable members of any IDispatch COM object:
 
 ```csharp
 var (methods, propsGet, propsSet) = ComTypeInspector.ListMembers(comObject);
 
-Console.WriteLine("Methods:");
-methods.ForEach(Console.WriteLine);
-
-Console.WriteLine("PropertyGet:");
-propsGet.ForEach(Console.WriteLine);
-
-Console.WriteLine("PropertySet:");
-propsSet.ForEach(Console.WriteLine);
-
-You can also get the COM type name:
-
-var typeName = ComTypeInspector.GetTypeName(comObject);
-Console.WriteLine($"COM type: {typeName}");
+methods.ForEach(m => Console.WriteLine("Method: " + m));
+propsGet.ForEach(p => Console.WriteLine("PropertyGet: " + p));
+propsSet.ForEach(p => Console.WriteLine("PropertySet: " + p)); ```
 
 
-## Install
+Get the COM type name:
 
-```bash
-dotnet add package ComAutoWrapper --version 1.1.0
+```csharp
+string typeName = ComTypeInspector.GetTypeName(comObject);
+Console.WriteLine($"COM type: {typeName}"); ```
 
-Example (Excel Automation):
-var excel = Activator.CreateInstance(Type.GetTypeFromProgID("Excel.Application")!);
-ComInvoker.SetProperty(excel, "Visible", true);
-var workbooks = ComInvoker.GetProperty<object>(excel, "Workbooks");
-ComInvoker.CallMethod(workbooks, "Add");
-ComInvoker.CallMethod(excel, "Quit");
 
-Features:
-Typed GetProperty<T>()
-Safe SetProperty(...)
-CallMethod(...) with params
-COM HRESULT error highlighting
+🧰 Property Access
 
-No Interop DLL dependency
+Set properties
+```csharp
+ComAutoHelper.SetProperty(app, "DisplayAlerts", false);
+ComAutoHelper.SetProperty(sheet, "Name", "Summary");
+ComAutoHelper.SetProperty(rng, "Value", new object[,] { ... }); ```
 
-Works on .NET 6/7/8/9
+Get properties (typed or untyped)
+```csharp
+bool visible = ComAutoHelper.GetProperty<bool>(excel, "Visible");
+object sheets = ComAutoHelper.GetProperty<object>(workbook, "Sheets"); ```
 
-## Kösazönetnyilvánitás
+⚙️ Method Invocation
+With return type:
+```csharp
+int count = ComAutoHelper.CallMethod<int>(workbooks, "Count");
+object sheet = ComAutoHelper.CallMethod<object>(sheets, "Item", 1); ```
+Or generic/untyped:
+```csharp
+
+object result = ComAutoHelper.CallMethod(sheet, "Calculate"); ```
+
+🙏 Köszönetnyilvánítás
 A ChatGPT által nyújtott segítségért, amely hozzájárult a projekt egyes részeinek megvalósításához.
 
-License:
+📄 License
 MIT
+
+yaml
+Copy
+Edit
