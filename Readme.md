@@ -58,7 +58,4 @@ MIT
 <<<<<<< HEAD
 =======
 
-yaml
-Copy
-Edit
 >>>>>>> e68748a (Update with method/property examples and usage)
