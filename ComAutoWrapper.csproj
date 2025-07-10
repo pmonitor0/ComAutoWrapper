@@ -6,13 +6,13 @@
     <Platforms>AnyCPU;x64</Platforms>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>ComAutoWrapper</PackageId>
-    <Version>1.1.1</Version>
+    <Version>1.1.2</Version>
     <Authors>pmonitor</Authors>
     <Company>Saját Fejlesztés</Company>
     <Description>Egyszerű AutoWrap COM helper C#-hoz</Description>
     <PackageTags>COM Interop AutoWrap Excel</PackageTags>
-    <AssemblyVersion>1.1.1</AssemblyVersion>
-    <FileVersion>1.1.1</FileVersion>
+    <AssemblyVersion>1.1.2</AssemblyVersion>
+    <FileVersion>1.1.2</FileVersion>
     <!-- <RepositoryUrl>https://github.com/peldaprojekt</RepositoryUrl>  ha van -->
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -50,6 +50,27 @@ Or generic/untyped:
 
 object result = ComAutoHelper.CallMethod(sheet, "Calculate"); ```
 
+### 🔍 Check if a COM property exists
+
+You can safely check if a property exists on a COM object:
+
+```csharp
+bool exists = ComAutoHelper.PropertyExists(excel, "DisplayAlerts");
+if (exists)
+    Console.WriteLine("Property exists."); ```
+
+
+✅ TryGetProperty: safely get a COM property
+You can try getting a property without catching exceptions:
+if (ComAutoHelper.TryGetProperty(excel, "Version", out string? version))
+{
+    Console.WriteLine($"Excel version: {version}");
+}
+else
+{
+    Console.WriteLine("Property not found or failed.");
+}
+
 🙏 Köszönetnyilvánítás
 A ChatGPT által nyújtott segítségért, amely hozzájárult a projekt egyes részeinek megvalósításához.
 
