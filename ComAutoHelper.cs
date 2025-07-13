@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ComAutoWrapper
 {
-	internal class ComAutoHelper
+	public class ComAutoHelper
 	{
 		public static bool TryGetProperty<T>(object comObject, string propertyName, out T? value, params object[]? args)
 		{
