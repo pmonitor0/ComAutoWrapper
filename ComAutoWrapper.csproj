@@ -6,14 +6,16 @@
     <Platforms>AnyCPU;x64</Platforms>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>ComAutoWrapper</PackageId>
-    <Version>1.1.2</Version>
+    <Version>1.1.3.1</Version>
     <Authors>pmonitor</Authors>
     <Company>Saját Fejlesztés</Company>
-    <Description>Egyszerű AutoWrap COM helper C#-hoz</Description>
-    <PackageTags>COM Interop AutoWrap Excel</PackageTags>
-    <AssemblyVersion>1.1.2</AssemblyVersion>
-    <FileVersion>1.1.2</FileVersion>
-    <!-- <RepositoryUrl>https://github.com/peldaprojekt</RepositoryUrl>  ha van -->
+    <Description>Simple AutoWrapper-style COM helper for C#. Enables method and property calls on COM objects without Interop DLLs or dynamic.</Description>
+    <PackageTags>COM Interop AutoWrap Excel, Word</PackageTags>
+    <AssemblyVersion>1.1.3.1</AssemblyVersion>
+    <FileVersion>1.1.3.1</FileVersion>
+    <PackageProjectUrl></PackageProjectUrl>
+    <PackageReadmeFile>Readme.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/pmonitor0/ComAutoWrapper</RepositoryUrl>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>embedded</DebugType>
@@ -27,4 +29,15 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DebugType>embedded</DebugType>
   </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ComAutoWrapper">
+      <HintPath>bin\x64\Release\net9.0\ComAutoWrapper.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 </Project>

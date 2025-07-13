@@ -71,6 +71,17 @@ else
     Console.WriteLine("Property not found or failed.");
 }
 
+## Full Excel + Word automation demo
+
+This WPF app runs both Excel and Word COM automation examples without any Interop DLLs:
+
+- Writes data into Excel
+- Formats Word paragraph
+- Inspects COM members via `ComTypeInspector`
+
+Source: [ComAutoWrapperDemo](https://github.com/pmonitor0/ComAutoWrapperDemo)
+
+
 🙏 Köszönetnyilvánítás
 A ChatGPT által nyújtott segítségért, amely hozzájárult a projekt egyes részeinek megvalósításához.
 
