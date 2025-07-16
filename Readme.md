@@ -83,7 +83,7 @@ Source: [ComAutoWrapperDemo](https://github.com/pmonitor0/ComAutoWrapperDemo)
 
 
 🙏 Köszönetnyilvánítás
-A ChatGPT által nyújtott segítségért, amely hozzájárult a projekt egyes részeinek megvalósításához.
+A ChatGPT által nyújtott nagyon sok segítségért, amely hozzájárult a projekt egyes részeinek megvalósításához.
 
 📄 License
 MIT
