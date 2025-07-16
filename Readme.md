@@ -82,6 +82,31 @@ This WPF app runs both Excel and Word COM automation examples without any Intero
 Source: [ComAutoWrapperDemo](https://github.com/pmonitor0/ComAutoWrapperDemo)
 
 
+## 📊 Comparison: OpenXML vs COM Automation
+
+This section compares two popular approaches for automating Office documents in C#.
+
+| Feature / Capability                              | OpenXML SDK           | COM Automation (`ComAutoWrapper`) |
+|--------------------------------------------------|------------------------|------------------------------------|
+| File-based read/write                            | ✅ Yes                | ❌ No                              |
+| Live Office application control (Excel/Word)     | ❌ No                 | ✅ Yes                             |
+| Handles password-protected files                 | ❌ No support         | ✅ Yes (if Office can open it)     |
+| Supports running VBA macros                      | ❌ No                 | ✅ Yes                             |
+| Reads current user selection                     | ❌ No                 | ✅ Yes                             |
+| Formatting (color, styles, font size, etc.)      | ⚠️ Limited            | ✅ Full                            |
+| Chart and graphic manipulation                   | ❌ No                 | ✅ Yes                             |
+| Interactive editing of running instance          | ❌ No                 | ✅ Yes                             |
+| Requires Interop DLLs                            | ❌ No                 | ❌ No (via ComAutoWrapper)         |
+| Can be used without Office installed             | ✅ Yes                | ❌ No                              |
+| Dependency size                                  | ✅ Small              | ✅ Small (via wrapper)             |
+
+> ⚠️ Note: OpenXML is best for static document generation and server-side manipulation.  
+> ✅ COM Automation is best for real-time document interaction and full feature access.
+
+---
+
+Using `ComAutoWrapper`, you get the **full power of Office** with the **ease of a lightweight, interop-free helper**, suitable for Excel and Word automation alike.
+
 🙏 Köszönetnyilvánítás
 A ChatGPT által nyújtott nagyon sok segítségért, amely hozzájárult a projekt egyes részeinek megvalósításához.
 
