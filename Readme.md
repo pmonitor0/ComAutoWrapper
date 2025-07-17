@@ -103,9 +103,9 @@ This section compares two popular approaches for automating Office documents in 
 > ⚠️ Note: OpenXML is best for static document generation and server-side manipulation.  
 > ✅ COM Automation is best for real-time document interaction and full feature access.
 
----
-
 Using `ComAutoWrapper`, you get the **full power of Office** with the **ease of a lightweight, interop-free helper**, suitable for Excel and Word automation alike.
+While both OpenXML and COM automation are useful for working with Office documents, they serve very different use cases. Here’s a feature-by-feature comparison to help you decide.
+
 
 🙏 Köszönetnyilvánítás
 A ChatGPT által nyújtott nagyon sok segítségért, amely hozzájárult a projekt egyes részeinek megvalósításához.
