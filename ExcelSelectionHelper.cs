@@ -9,6 +9,20 @@ namespace ComAutoWrapper
 {
 	public class ExcelSelectionHelper
 	{
+		public static void SelectUsedRange(object worksheet)
+		{
+			var usedRange = ComInvoker.GetProperty<object>(worksheet, "UsedRange");
+			ComInvoker.CallMethod(usedRange!, "Select");
+		}
+
+		public static void HighlightUsedRange(object worksheet, System.Drawing.Color color)
+		{
+			SelectUsedRange(worksheet);
+			var usedRange = ComInvoker.GetProperty<object>(worksheet, "UsedRange");
+			var interior = ComInvoker.GetProperty<object>(usedRange, "Interior");
+			ComInvoker.SetProperty(interior!, "Color", color);
+		}
+
 		public static void SelectCells(object sheet, params string[] addresses)
 		{
 			if (addresses.Length == 0)
