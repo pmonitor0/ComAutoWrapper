@@ -1,115 +1,124 @@
-🚀 Quick Example (Excel automation)
+# ComAutoWrapper
+
+**ComAutoWrapper** is a lightweight, zero-Interop, fluent C# helper library for automating COM objects such as **Excel** and **Word** — without relying on bulky Primary Interop Assemblies (PIAs).
+
+✔️ Fully dynamic  
+✔️ Typed property/method access  
+✔️ Introspectable  
+✔️ Ideal for WPF / Console / WinForms projects  
+✔️ Just **~30 KB** compiled DLL
+
+---
+
+## 🚀 Features
+
+- **No Interop DLLs needed**
+- Lightweight COM helper for C#
+- Elegant dynamic wrappers:
+  - `GetProperty<T>()`, `SetProperty()`
+  - `CallMethod<T>()`
+- COM introspection (`ComTypeInspector`)
+- Excel selection utilities (`ComSelectionHelper`)
+- Safe release of COM objects
+- Compatible with: .NET 6, 7, 8, 9+
+
+---
+
+## 🧠 Examples
+
+### Get/Set COM Properties
 
 ```csharp
 var excel = Activator.CreateInstance(Type.GetTypeFromProgID("Excel.Application")!);
-ComAutoHelper.SetProperty(excel, "Visible", true);
+ComInvoker.SetProperty(excel, "Visible", true);
 
-var workbooks = ComAutoHelper.GetProperty<object>(excel, "Workbooks");
-ComAutoHelper.CallMethod(workbooks, "Add");
+var workbooks = ComInvoker.GetProperty<object>(excel, "Workbooks");
+var workbook = ComInvoker.CallMethod<object>(workbooks, "Add");
+```
 
-ComAutoHelper.CallMethod(excel, "Quit"); ```
-
-🔍 COM Member Introspection
-You can list all callable members of any IDispatch COM object:
+### Invoke COM Methods
 
 ```csharp
-var (methods, propsGet, propsSet) = ComTypeInspector.ListMembers(comObject);
+var sheet = ComInvoker.GetProperty<object>(workbook, "ActiveSheet");
+var cell = ComInvoker.GetProperty<object>(sheet, "Cells");
+ComInvoker.SetProperty(cell, "Item", new object[] { 1, 1 }, "Hello");
+```
 
-methods.ForEach(m => Console.WriteLine("Method: " + m));
-propsGet.ForEach(p => Console.WriteLine("PropertyGet: " + p));
-propsSet.ForEach(p => Console.WriteLine("PropertySet: " + p)); ```
-
-
-Get the COM type name:
+### Introspect COM Object
 
 ```csharp
-string typeName = ComTypeInspector.GetTypeName(comObject);
-Console.WriteLine($"COM type: {typeName}"); ```
+var (methods, propsGet, propsSet) = ComTypeInspector.ListMembers(sheet);
+Console.WriteLine("Available methods:");
+methods.ForEach(Console.WriteLine);
+```
 
+---
 
-🧰 Property Access
+## ✨ Excel-Specific Helpers (Optional)
 
-Set properties
-```csharp
-ComAutoHelper.SetProperty(app, "DisplayAlerts", false);
-ComAutoHelper.SetProperty(sheet, "Name", "Summary");
-ComAutoHelper.SetProperty(rng, "Value", new object[,] { ... }); ```
+Provided via the built-in `ComSelectionHelper`:
 
-Get properties (typed or untyped)
-```csharp
-bool visible = ComAutoHelper.GetProperty<bool>(excel, "Visible");
-object sheets = ComAutoHelper.GetProperty<object>(workbook, "Sheets"); ```
+| Method | Description |
+|--------|-------------|
+| `SelectCells(excel, sheet, "A1", "B3", "C5")` | Selects non-contiguous Excel cells |
+| `GetSelectedCellCoordinates(excel)` | Returns `(row, column)` for each selected cell |
+| `HighlightUsedRange(sheet)` | Highlights the used range with color |
 
-⚙️ Method Invocation
-With return type:
-```csharp
-int count = ComAutoHelper.CallMethod<int>(workbooks, "Count");
-object sheet = ComAutoHelper.CallMethod<object>(sheets, "Item", 1); ```
-Or generic/untyped:
-```csharp
+These helpers abstract away the quirks of Excel's COM object model.
 
-object result = ComAutoHelper.CallMethod(sheet, "Calculate"); ```
+---
 
-### 🔍 Check if a COM property exists
+## 📦 NuGet Package
 
-You can safely check if a property exists on a COM object:
+Install via CLI:
 
-```csharp
-bool exists = ComAutoHelper.PropertyExists(excel, "DisplayAlerts");
-if (exists)
-    Console.WriteLine("Property exists."); ```
+```bash
+dotnet add package ComAutoWrapper
+```
 
+Or via Visual Studio NuGet UI.
 
-✅ TryGetProperty: safely get a COM property
-You can try getting a property without catching exceptions:
-if (ComAutoHelper.TryGetProperty(excel, "Version", out string? version))
-{
-    Console.WriteLine($"Excel version: {version}");
-}
-else
-{
-    Console.WriteLine("Property not found or failed.");
-}
+---
 
-## Full Excel + Word automation demo
+## 💻 Requirements
 
-This WPF app runs both Excel and Word COM automation examples without any Interop DLLs:
+- Windows OS (COM-based)
+- .NET 6 / 7 / 8 / 9
+- Microsoft Excel/Word must be installed
 
-- Writes data into Excel
-- Formats Word paragraph
-- Inspects COM members via `ComTypeInspector`
+> The library **does not embed Interop DLLs**. It uses late binding with proper error handling.
 
-Source: [ComAutoWrapperDemo](https://github.com/pmonitor0/ComAutoWrapperDemo)
+---
 
+## 🔗 Related Project
+
+- [ComAutoWrapperDemo (GitHub)](https://github.com/pmonitor0/ComAutoWrapperDemo)  
+  WPF demo showcasing full Excel and Word automation using this wrapper.
+
+---
 
 ## 📊 Comparison: OpenXML vs COM Automation
 
-This section compares two popular approaches for automating Office documents in C#.
+| Feature | OpenXML SDK | ComAutoWrapper |
+|--------|-------------|----------------|
+| Requires Excel Installed | ❌ | ✅ |
+| Works on Locked/Password Files | ❌ | ✅ |
+| Manipulate Active Excel Instance | ❌ | ✅ |
+| Word Automation | ❌ | ✅ |
+| File Size (DLL) | >10 MB | ~30 KB |
+| API Simplicity | Moderate | High (fluent & dynamic) |
+| Cell Selection / UI Interaction | ❌ | ✅ |
+| UsedRange / Borders / Colors | ❌ | ✅ |
 
-| Feature / Capability                              | OpenXML SDK           | COM Automation (`ComAutoWrapper`) |
-|--------------------------------------------------|------------------------|------------------------------------|
-| File-based read/write                            | ✅ Yes                | ❌ No                              |
-| Live Office application control (Excel/Word)     | ❌ No                 | ✅ Yes                             |
-| Handles password-protected files                 | ❌ No support         | ✅ Yes (if Office can open it)     |
-| Supports running VBA macros                      | ❌ No                 | ✅ Yes                             |
-| Reads current user selection                     | ❌ No                 | ✅ Yes                             |
-| Formatting (color, styles, font size, etc.)      | ⚠️ Limited            | ✅ Full                            |
-| Chart and graphic manipulation                   | ❌ No                 | ✅ Yes                             |
-| Interactive editing of running instance          | ❌ No                 | ✅ Yes                             |
-| Requires Interop DLLs                            | ❌ No                 | ❌ No (via ComAutoWrapper)         |
-| Can be used without Office installed             | ✅ Yes                | ❌ No                              |
-| Dependency size                                  | ✅ Small              | ✅ Small (via wrapper)             |
+---
 
-> ⚠️ Note: OpenXML is best for static document generation and server-side manipulation.  
-> ✅ COM Automation is best for real-time document interaction and full feature access.
+## 🙏 Acknowledgment
 
-Using `ComAutoWrapper`, you get the **full power of Office** with the **ease of a lightweight, interop-free helper**, suitable for Excel and Word automation alike.
-While both OpenXML and COM automation are useful for working with Office documents, they serve very different use cases. Here’s a feature-by-feature comparison to help you decide.
+This library is the result of an iterative collaboration between the author and ChatGPT.  
+Special thanks to all early testers and contributors who shaped the API.
 
+---
 
-🙏 Köszönetnyilvánítás
-A ChatGPT által nyújtott nagyon sok segítségért, amely hozzájárult a projekt egyes részeinek megvalósításához.
+## 📄 License
 
-📄 License
 MIT
-
