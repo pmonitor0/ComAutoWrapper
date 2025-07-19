@@ -1,23 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
-	<ImplicitUsings>enable</ImplicitUsings>
+    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Platforms>AnyCPU;x64</Platforms>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    
     <PackageId>ComAutoWrapper</PackageId>
-    <Version>1.1.4</Version>
+    <Version>1.1.5.2</Version>
     <Authors>pmonitor</Authors>
     <Company>Saját Fejlesztés</Company>
     <Description>Simple AutoWrapper-style COM helper for C#. Enables method and property calls on COM objects without Interop DLLs or dynamic.</Description>
     <PackageTags>COM Interop AutoWrap Excel, Word</PackageTags>
-    <AssemblyVersion>1.1.4</AssemblyVersion>
-    <FileVersion>1.1.4</FileVersion>
-    <PackageProjectUrl></PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>Readme.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/pmonitor0/ComAutoWrapper</RepositoryUrl>
-    <NuGetAudit>True</NuGetAudit>
+    
+    <AssemblyVersion>1.1.5.2</AssemblyVersion>
+    <FileVersion>1.1.5.2</FileVersion>
   </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>embedded</DebugType>
   </PropertyGroup>
@@ -30,7 +32,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DebugType>embedded</DebugType>
   </PropertyGroup>
-  <ItemGroup>
+   <ItemGroup>
     <Reference Include="ComAutoWrapper">
       <HintPath>bin\x64\Release\net9.0\ComAutoWrapper.dll</HintPath>
     </Reference>

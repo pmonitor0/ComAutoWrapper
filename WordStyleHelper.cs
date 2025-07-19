@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ComAutoWrapperDemo
+namespace ComAutoWrapper
 {
-    class WordStyleHelper
+    public class WordStyleHelper
     {
 		public static void ApplyStyle(
 			object range,
