@@ -7,7 +7,7 @@
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     
     <PackageId>ComAutoWrapper</PackageId>
-    <Version>1.1.5.2</Version>
+    <Version>1.1.5.3</Version>
     <Authors>pmonitor</Authors>
     <Company>Saját Fejlesztés</Company>
     <Description>Simple AutoWrapper-style COM helper for C#. Enables method and property calls on COM objects without Interop DLLs or dynamic.</Description>
@@ -16,8 +16,8 @@
     <PackageReadmeFile>Readme.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/pmonitor0/ComAutoWrapper</RepositoryUrl>
     
-    <AssemblyVersion>1.1.5.2</AssemblyVersion>
-    <FileVersion>1.1.5.2</FileVersion>
+    <AssemblyVersion>1.1.5.3</AssemblyVersion>
+    <FileVersion>1.1.5.3</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -29,21 +29,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>embedded</DebugType>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DebugType>embedded</DebugType>
   </PropertyGroup>
-   <ItemGroup>
-    <Reference Include="ComAutoWrapper">
-      <HintPath>bin\x64\Release\net9.0\ComAutoWrapper.dll</HintPath>
-    </Reference>
-  </ItemGroup>
   <ItemGroup>
     <None Update="Readme.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="nupkg\" />
   </ItemGroup>
 </Project>
