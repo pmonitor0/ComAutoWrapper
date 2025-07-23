@@ -1,21 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace ComAutoWrapper
 {
+	/// <summary>
+	/// Segédosztály Excel COM tartományok kijelöléséhez, színezéséhez, valamint cellák koordinátáinak lekérdezéséhez.
+	/// </summary>
 	public class ExcelSelectionHelper
 	{
+		/// <summary>
+		/// Kijelöli az aktív munkalap használt tartományát (<c>UsedRange</c>).
+		/// </summary>
+		/// <param name="worksheet">A <c>Worksheet</c> COM objektum, amelyen a kijelölést végezzük.</param>
 		public static void SelectUsedRange(object worksheet)
 		{
-			var usedRange = ComInvoker.GetProperty<object>(worksheet, "UsedRange");
+			var usedRange = ComReleaseHelper.Track(ComInvoker.GetProperty<object>(worksheet, "UsedRange"));
 			ComInvoker.CallMethod(usedRange!, "Select");
 		}
 
-		public static void HighlightUsedRange(object worksheet, System.Drawing.Color color)
+		/// <summary>
+		/// Kijelöli és háttérszínnel kiemeli az aktív munkalap használt tartományát.
+		/// </summary>
+		/// <param name="worksheet">A <c>Worksheet</c> COM objektum.</param>
+		/// <param name="color">A kívánt háttérszín OLE_COLOR formátumban (pl. BGR int).</param>
+		public static void HighlightUsedRange(object worksheet, int color)
 		{
 			SelectUsedRange(worksheet);
 			var usedRange = ComInvoker.GetProperty<object>(worksheet, "UsedRange");
@@ -23,30 +33,37 @@ namespace ComAutoWrapper
 			ComInvoker.SetProperty(interior!, "Color", color);
 		}
 
+		/// <summary>
+		/// Kijelöli a megadott cellacímek által meghatározott tartományokat (pl. "A1", "B2:D4").
+		/// Több cím esetén automatikusan összevonja őket (<c>Union</c>).
+		/// </summary>
+		/// <param name="sheet">A <c>Worksheet</c> COM objektum.</param>
+		/// <param name="addresses">A kijelölendő tartományok címei Excel formátumban.</param>
 		public static void SelectCells(object sheet, params string[] addresses)
 		{
 			if (addresses.Length == 0)
 				return;
 
-			// 1. Get Application from sheet
 			var app = ComInvoker.GetProperty<object>(sheet, "Application");
 
-			// 2. Get individual ranges from addresses
 			var ranges = addresses
 				.Select(addr => ComInvoker.GetProperty<object>(sheet, "Range", new object[] { addr }))
 				.ToArray();
 
-			// 3. Combine with Union if needed
 			object combined = ranges[0];
 			for (int i = 1; i < ranges.Length; i++)
 			{
 				combined = ComInvoker.CallMethod<object>(app, "Union", combined, ranges[i]);
 			}
 
-			// 4. Select the final range
 			ComInvoker.CallMethod(combined, "Select");
 		}
 
+		/// <summary>
+		/// Lekéri az aktuálisan kijelölt cellák (akár több tartományból) koordinátáit.
+		/// </summary>
+		/// <param name="excel">Az Excel Application vagy Window COM objektum, amelyből a kijelölt tartomány elérhető.</param>
+		/// <returns>A kiválasztott cellák listája sor és oszlop szerint (<c>Row</c>, <c>Column</c>).</returns>
 		public static List<(int Row, int Column)> GetSelectedCellCoordinates(object excel)
 		{
 			var coordinates = new List<(int Row, int Column)>();
@@ -80,10 +97,14 @@ namespace ComAutoWrapper
 			return coordinates;
 		}
 
+		/// <summary>
+		/// Lekéri az aktuálisan kijelölt cellák koordinátáit és COM objektumait is.
+		/// </summary>
+		/// <param name="excel">Az Excel Application vagy Window COM objektum, amelyből a kijelölt tartomány elérhető.</param>
+		/// <returns>Lista a kijelölt cellák koordinátáival és COM objektumaival: (<c>Row</c>, <c>Column</c>, <c>Cell</c>).</returns>
 		public static List<(int Row, int Column, object Cell)> GetSelectedCellObjects(object excel)
 		{
 			var result = new List<(int Row, int Column, object Cell)>();
-
 			var selection = ComInvoker.GetProperty<object>(excel, "Selection");
 			var areas = ComInvoker.GetProperty<object>(selection!, "Areas");
 			int areaCount = ComInvoker.GetProperty<int>(areas!, "Count");
@@ -113,6 +134,11 @@ namespace ComAutoWrapper
 			return result;
 		}
 
+		/// <summary>
+		/// Excel oszlopbetű (pl. "A", "AB") átalakítása sorszámmá (pl. 1, 28).
+		/// </summary>
+		/// <param name="col">Az oszlop betűjele.</param>
+		/// <returns>A numerikus sorszám (1-alapú).</returns>
 		public static int ColumnLetterToNumber(string col)
 		{
 			int sum = 0;

@@ -5,8 +5,17 @@ using System.Runtime.InteropServices.ComTypes;
 
 namespace ComAutoWrapper
 {
+	/// <summary>
+	/// Segédosztály COM objektumok típusinformációinak és tagjainak introspekciójához.
+	/// Az <see cref="IDispatch"/> és <see cref="ITypeInfo"/> interfészeken keresztül működik.
+	/// </summary>
 	public static class ComTypeInspector
 	{
+		/// <summary>
+		/// Lekéri a COM objektum típusának nevét az <c>ITypeInfo.GetDocumentation</c> alapján.
+		/// </summary>
+		/// <param name="comObject">A COM objektum, amelynek a típusnevét le szeretnénk kérni.</param>
+		/// <returns>A típus neve (általában az interfész neve), vagy <c>null</c>, ha nem elérhető.</returns>
 		public static string? GetTypeName(object comObject)
 		{
 			if (comObject is not IDispatch dispatch)
@@ -19,6 +28,19 @@ namespace ComAutoWrapper
 			return name.TrimStart('_');
 		}
 
+		/// <summary>
+		/// Lekéri a COM objektum összes elérhető tagját három kategóriában:
+		/// metódusok, olvasható property-k, és írható property-k.
+		/// </summary>
+		/// <param name="comObject">A vizsgálandó COM objektum.</param>
+		/// <returns>
+		/// Egy tuple három listával:
+		/// <list type="bullet">
+		/// <item><description><c>Methods</c>: elérhető metódusok nevei</description></item>
+		/// <item><description><c>PropertyGets</c>: olvasható property-k nevei</description></item>
+		/// <item><description><c>PropertySets</c>: írható property-k nevei</description></item>
+		/// </list>
+		/// </returns>
 		public static (List<string> Methods, List<string> PropertyGets, List<string> PropertySets)
 			ListMembers(object comObject)
 		{
@@ -61,6 +83,4 @@ namespace ComAutoWrapper
 			return (methods, gets, sets);
 		}
 	}
-
-
 }

@@ -5,20 +5,25 @@
     <Nullable>enable</Nullable>
     <Platforms>AnyCPU;x64</Platforms>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    
     <PackageId>ComAutoWrapper</PackageId>
-    <Version>1.1.5.3</Version>
-    <Authors>pmonitor</Authors>
+    <Version>1.1.5.4</Version>
+    <Authors>Ferenc Biro</Authors>
     <Company>Saját Fejlesztés</Company>
-    <Description>Simple AutoWrapper-style COM helper for C#. Enables method and property calls on COM objects without Interop DLLs or dynamic.</Description>
-    <PackageTags>COM Interop AutoWrap Excel, Word</PackageTags>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>Minimalista, könnyen használható .NET wrapper COM automatizáláshoz (Excel, Word, stb.). Magas szintű metódusokkal, erőforráskezeléssel és introspekcióval.</Description>
+    <PackageTags>COM;Interop;Excel;Word;Automation;Wrapper;LateBinding</PackageTags>
+    <RepositoryUrl>https://github.com/felhasznalo/ComAutoWrapper</RepositoryUrl> <!-- ha van -->
+    <PackageProjectUrl>https://github.com/felhasznalo/ComAutoWrapper</PackageProjectUrl>
     <PackageReadmeFile>Readme.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/pmonitor0/ComAutoWrapper</RepositoryUrl>
-    
-    <AssemblyVersion>1.1.5.3</AssemblyVersion>
-    <FileVersion>1.1.5.3</FileVersion>
-  </PropertyGroup>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+     <AssemblyVersion>1.1.5.4</AssemblyVersion>
+     <FileVersion>1.1.5.4</FileVersion>
+    <!-- XML dokumentáció NuGet csomagba -->
+    <IncludeSymbols>true</IncludeSymbols>
+    <IncludeSource>true</IncludeSource>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+</PropertyGroup>
+
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>embedded</DebugType>
@@ -35,10 +40,23 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DebugType>embedded</DebugType>
   </PropertyGroup>
-  <ItemGroup>
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <BaseOutputPath>bin</BaseOutputPath>
+    <DocumentationFile>bin\Release\net9.0\ComAutoWrapper.xml</DocumentationFile>
+  </PropertyGroup>
+    <ItemGroup>
     <None Update="Readme.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
+  
+  <!-- <ItemGroup>
+    <None Update="Readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+  -->
 </Project>
