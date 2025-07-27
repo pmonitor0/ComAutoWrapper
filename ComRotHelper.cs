@@ -57,7 +57,7 @@ namespace ComAutoWrapper
 						// Csak akkor adjuk hozzá, ha még nem szerepel a listában (referencia szerint)
 						if (!result.Any(o => ReferenceEquals(o, app)))
 						{
-							result.Add(app);
+							result.Add(app!);
 						}
 					}
 				}

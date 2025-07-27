@@ -28,7 +28,7 @@ namespace ComAutoWrapper
 			{
 				_tracked.Add(comObject!);
 			}
-
+			
 			return comObject;
 		}
 
@@ -38,11 +38,12 @@ namespace ComAutoWrapper
 		/// </summary>
 		public static void ReleaseAll()
 		{
-			foreach (var obj in _tracked)
+#pragma warning disable CA1416
+			foreach (object obj in _tracked)
 			{
 				try
 				{
-					Marshal.FinalReleaseComObject(obj);
+					Marshal.FinalReleaseComObject(obj!);
 				}
 				catch
 				{
@@ -72,6 +73,32 @@ namespace ComAutoWrapper
 			{
 				Console.WriteLine($"Tracked: {o?.GetType()}");
 			}
+		}
+
+		/// <summary>
+		/// Eltávolít egy adott COM objektumot a követett listából, ha benne van.
+		/// </summary>
+		/// <param name="comObject">A COM objektum, amelyet törölni szeretnél.</param>
+		/// <returns><c>true</c>, ha sikerült eltávolítani.</returns>
+		public static bool Remove(object comObject)
+		{
+			return _tracked.Remove(comObject);
+		}
+
+		/// <summary>
+		/// Felszabadítja az összes COM objektumot, majd kiüríti a listát.
+		/// </summary>
+		public static void Reset()
+		{
+			ReleaseAll();
+			_tracked.Clear();
+		}
+		/// <summary>
+		/// Megvizsgálja, hogy a megadott COM objektum jelen van-e a nyilvántartásban.
+		/// </summary>
+		public static bool IsTracked(object comObject)
+		{
+			return _tracked.Contains(comObject);
 		}
 	}
 }

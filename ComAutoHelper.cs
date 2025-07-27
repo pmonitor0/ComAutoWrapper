@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -90,5 +91,39 @@ namespace ComAutoWrapper
 				return false;
 			}
 		}
+
+		/// <summary>
+		/// Lekéri az Excel.Application COM objektumhoz tartozó Windows folyamatot (Process).
+		/// </summary>
+		/// <param name="excelApp">Az Excel COM objektum.</param>
+		/// <returns>A hozzá tartozó Process példány.</returns>
+		/// <exception cref="InvalidOperationException">
+		/// Ha nem sikerül lekérni az ablak handle-t vagy a folyamatazonosítót.
+		/// </exception>
+		/// <example>
+		/// using System.Diagnostics;
+		/// ...
+		/// var proc = ComAutoHelper.GetProcessByExcelHandle(excelApp);
+		/// Console.WriteLine("Excel PID: " + proc.Id);
+		/// </example>
+		/// <returns>
+		///<c>true</c>, ha a lekérés sikeres volt és az érték típuskompatibilis; különben<c>false</c>.
+		///</returns>
+		public static Process? GetProcessByExcelHandle(object excelApp)
+		{
+			int hwnd = ComInvoker.GetProperty<int>(excelApp!, "Hwnd", null);
+			if (hwnd == 0)
+				throw new InvalidOperationException("Could not retrieve Excel window handle.");
+
+			GetWindowThreadProcessId(hwnd, out nint processID);
+			if (processID == 0)
+				throw new InvalidOperationException("Could not retrieve Excel process ID.");
+
+			return Process.GetProcessById(processID.ToInt32());
+		}
+
+		[System.Runtime.InteropServices.DllImport("user32.dll")]
+		private static extern uint GetWindowThreadProcessId(int hWnd, out nint lpdwProcessId);
+
 	}
 }

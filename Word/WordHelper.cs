@@ -18,7 +18,9 @@ namespace ComAutoWrapper
 		/// </summary>
 		public static void RunWordInsertTableDemo()
 		{
-			var wordApp = Activator.CreateInstance(Type.GetTypeFromProgID("Word.Application"));
+#pragma warning disable CA1416
+			Type? type = Type.GetTypeFromProgID("Word.Application");
+			object? wordApp = Activator.CreateInstance(type!);
 			ComInvoker.SetProperty(wordApp!, "Visible", true);
 			ComInvoker.SetProperty(wordApp!, "DisplayAlerts", false);
 

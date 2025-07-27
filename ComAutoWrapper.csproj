@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -6,20 +6,21 @@
     <Platforms>AnyCPU;x64</Platforms>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageId>ComAutoWrapper</PackageId>
-    <Version>1.1.5.4</Version>
+    <Version>1.1.5.7</Version>
     <Authors>Ferenc Biro</Authors>
-    <Company>Saját Fejlesztés</Company>
+    <Company>Saját Fejlesztés(chatgt segítségével)</Company>
     <Description>Minimalista, könnyen használható .NET wrapper COM automatizáláshoz (Excel, Word, stb.). Magas szintű metódusokkal, erőforráskezeléssel és introspekcióval.</Description>
     <PackageTags>COM;Interop;Excel;Word;Automation;Wrapper;LateBinding</PackageTags>
-    <RepositoryUrl>https://github.com/felhasznalo/ComAutoWrapper</RepositoryUrl> <!-- ha van -->
-    <PackageProjectUrl>https://github.com/felhasznalo/ComAutoWrapper</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/pmonitor0/ComAutoWrapper</RepositoryUrl> <!-- ha van -->
+	<RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/pmonitor0/ComAutoWrapper</PackageProjectUrl>
     <PackageReadmeFile>Readme.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
 
-     <AssemblyVersion>1.1.5.4</AssemblyVersion>
-     <FileVersion>1.1.5.4</FileVersion>
+     <AssemblyVersion>1.1.5.7</AssemblyVersion>
+     <FileVersion>1.1.5.7</FileVersion>
     <!-- XML dokumentáció NuGet csomagba -->
-    <IncludeSymbols>true</IncludeSymbols>
+    <IncludeSymbols>False</IncludeSymbols>
     <IncludeSource>true</IncludeSource>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
 </PropertyGroup>
@@ -51,12 +52,4 @@
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
-  
-  <!-- <ItemGroup>
-    <None Update="Readme.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-  -->
 </Project>

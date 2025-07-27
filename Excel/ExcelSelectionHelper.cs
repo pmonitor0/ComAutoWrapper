@@ -28,8 +28,8 @@ namespace ComAutoWrapper
 		public static void HighlightUsedRange(object worksheet, int color)
 		{
 			SelectUsedRange(worksheet);
-			var usedRange = ComInvoker.GetProperty<object>(worksheet, "UsedRange");
-			var interior = ComInvoker.GetProperty<object>(usedRange, "Interior");
+			object? usedRange = ComInvoker.GetProperty<object>(worksheet, "UsedRange");
+			object? interior = ComInvoker.GetProperty<object>(usedRange!, "Interior");
 			ComInvoker.SetProperty(interior!, "Color", color);
 		}
 
@@ -50,13 +50,13 @@ namespace ComAutoWrapper
 				.Select(addr => ComInvoker.GetProperty<object>(sheet, "Range", new object[] { addr }))
 				.ToArray();
 
-			object combined = ranges[0];
+			object? combined = ranges[0];
 			for (int i = 1; i < ranges.Length; i++)
 			{
-				combined = ComInvoker.CallMethod<object>(app, "Union", combined, ranges[i]);
+				combined = ComInvoker.CallMethod<object>(app!, "Union", combined!, ranges[i]!);
 			}
 
-			ComInvoker.CallMethod(combined, "Select");
+			ComInvoker.CallMethod(combined!, "Select");
 		}
 
 		/// <summary>
@@ -66,24 +66,24 @@ namespace ComAutoWrapper
 		/// <returns>A kiválasztott cellák listája sor és oszlop szerint (<c>Row</c>, <c>Column</c>).</returns>
 		public static List<(int Row, int Column)> GetSelectedCellCoordinates(object excel)
 		{
-			var coordinates = new List<(int Row, int Column)>();
+			List<(int, int)> coordinates = new List<(int Row, int Column)>();
 
-			var selection = ComInvoker.GetProperty<object>(excel, "Selection");
-			var areas = ComInvoker.GetProperty<object>(selection!, "Areas");
+			object? selection = ComInvoker.GetProperty<object>(excel, "Selection");
+			object? areas = ComInvoker.GetProperty<object>(selection!, "Areas");
 			int areaCount = ComInvoker.GetProperty<int>(areas!, "Count");
 
 			for (int a = 1; a <= areaCount; a++)
 			{
-				var area = ComInvoker.GetProperty<object>(areas!, "Item", new object[] { a });
+				object? area = ComInvoker.GetProperty<object>(areas!, "Item", new object[] { a });
 				var cellsInArea = ComInvoker.GetProperty<object>(area!, "Cells");
 				int count = ComInvoker.GetProperty<int>(cellsInArea!, "Count");
 
 				for (int i = 1; i <= count; i++)
 				{
-					var cell = ComInvoker.GetProperty<object>(cellsInArea!, "Item", new object[] { i });
-					string address = ComInvoker.GetProperty<string>(cell!, "Address");
+					object? cell = ComInvoker.GetProperty<object>(cellsInArea!, "Item", new object[] { i });
+					string? address = ComInvoker.GetProperty<string>(cell!, "Address");
 
-					var match = Regex.Match(address, @"\$([A-Z]+)\$(\d+)");
+					Match match = Regex.Match(address!, @"\$([A-Z]+)\$(\d+)");
 					if (match.Success)
 					{
 						string colLetter = match.Groups[1].Value;
@@ -105,28 +105,28 @@ namespace ComAutoWrapper
 		public static List<(int Row, int Column, object Cell)> GetSelectedCellObjects(object excel)
 		{
 			var result = new List<(int Row, int Column, object Cell)>();
-			var selection = ComInvoker.GetProperty<object>(excel, "Selection");
-			var areas = ComInvoker.GetProperty<object>(selection!, "Areas");
+			object? selection = ComInvoker.GetProperty<object>(excel, "Selection");
+			object? areas = ComInvoker.GetProperty<object>(selection!, "Areas");
 			int areaCount = ComInvoker.GetProperty<int>(areas!, "Count");
 
 			for (int a = 1; a <= areaCount; a++)
 			{
-				var area = ComInvoker.GetProperty<object>(areas!, "Item", new object[] { a });
-				var cellsInArea = ComInvoker.GetProperty<object>(area!, "Cells");
+				object? area = ComInvoker.GetProperty<object>(areas!, "Item", new object[] { a });
+				object? cellsInArea = ComInvoker.GetProperty<object>(area!, "Cells");
 				int count = ComInvoker.GetProperty<int>(cellsInArea!, "Count");
 
 				for (int i = 1; i <= count; i++)
 				{
-					var cell = ComInvoker.GetProperty<object>(cellsInArea!, "Item", new object[] { i });
-					string address = ComInvoker.GetProperty<string>(cell!, "Address");
+					object? cell = ComInvoker.GetProperty<object>(cellsInArea!, "Item", new object[] { i });
+					string? address = ComInvoker.GetProperty<string>(cell!, "Address");
 
-					var match = Regex.Match(address, @"\$([A-Z]+)\$(\d+)");
+					Match match = Regex.Match(address!, @"\$([A-Z]+)\$(\d+)");
 					if (match.Success)
 					{
 						string colLetter = match.Groups[1].Value;
 						int row = int.Parse(match.Groups[2].Value);
 						int col = ColumnLetterToNumber(colLetter);
-						result.Add((row, col, cell));
+						result.Add((row!, col!, cell!));
 					}
 				}
 			}
